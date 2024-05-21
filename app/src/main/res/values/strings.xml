@@ -2,5 +2,7 @@
     <string name="app_name">VinToday</string>
 
     <string name="fui_name_hint">Name</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
