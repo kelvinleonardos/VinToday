@@ -12,7 +12,6 @@ public class DBConfig extends SQLiteOpenHelper {
     private static final int DB_VERSION = 1;
     private static final String TABLE_NAME = "news";
     private static final String COL_ID = "id";
-    private static final String COL_ID = "id";
     private static final String COL_SOURCE_ID = "source_id";
     private static final String COL_SOURCE_NAME = "source_name";
     private static final String COL_AUTHOR = "author";

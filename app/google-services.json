@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "313440332692",
+    "project_id": "vintoday-bcbe6",
+    "storage_bucket": "vintoday-bcbe6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:313440332692:android:e537ccc34c29fc2bfebd81",
+        "android_client_info": {
+          "package_name": "com.example.vintoday"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYRn9gWl8PSLjhdt03Kxis-wDdpKB80ME"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
