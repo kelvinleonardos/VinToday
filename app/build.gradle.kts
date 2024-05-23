@@ -47,5 +47,12 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore:25.0.0")
     implementation("com.firebaseui:firebase-ui-auth:8.0.2")
 
+    // retrofit
+    implementation ("com.squareup.retrofit2:retrofit:2.8.2")
+    implementation ("com.squareup.retrofit2:converter-gson:2.8.2")
+
+    // picasso
+    implementation ("com.squareup.picasso:picasso:2.8")
+
 
 }
