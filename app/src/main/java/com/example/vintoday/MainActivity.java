@@ -1,6 +1,7 @@
 package com.example.vintoday;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import com.example.vintoday.fragments.HomeFragment;
 import com.example.vintoday.fragments.NewsFragment;
 import com.example.vintoday.fragments.YouFragment;
+import com.example.vintoday.utils.Themes;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -24,6 +26,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
+
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onStart() {
@@ -49,6 +53,10 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0);
             return insets;
         });
+
+        sharedPreferences = getSharedPreferences("ThemePref", MODE_PRIVATE);
+        String currentTheme = sharedPreferences.getString("theme", "Default");
+        Themes.applyTheme(currentTheme);
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnItemSelectedListener(item -> {
@@ -86,7 +94,8 @@ public class MainActivity extends AppCompatActivity {
             // Handle profile menu click
             return true;
         } else if (id == R.id.menu_settings) {
-            // Handle settings menu click
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent);
             return true;
         } else if (id == R.id.menu_signout) {
             FirebaseAuth.getInstance().signOut();
