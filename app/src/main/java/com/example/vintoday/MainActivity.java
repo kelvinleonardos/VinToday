@@ -91,7 +91,8 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.menu_profile) {
-            // Handle profile menu click
+            Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+            startActivity(intent);
             return true;
         } else if (id == R.id.menu_settings) {
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);

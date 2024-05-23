@@ -56,12 +56,10 @@ public class SignInActivity extends AppCompatActivity {
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
                         Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
                     } else {
-                        // If sign in fails, display a message to the user.
                         Toast.makeText(SignInActivity.this, "Authentication failed.",
                                 Toast.LENGTH_SHORT).show();
                     }

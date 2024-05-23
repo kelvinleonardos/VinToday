@@ -2,6 +2,8 @@ package com.example.vintoday;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,10 +12,14 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.vintoday.utils.Themes;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class ProfileActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
+
+    TextView tv_name, tv_email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +32,32 @@ public class ProfileActivity extends AppCompatActivity {
             return insets;
         });
 
+        getSupportActionBar().setTitle("Profile");
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         sharedPreferences = getSharedPreferences("ThemePref", MODE_PRIVATE);
         String currentTheme = sharedPreferences.getString("theme", "Default");
         Themes.applyTheme(currentTheme);
 
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        tv_name = findViewById(R.id.profile_name);
+        tv_email = findViewById(R.id.profile_email);
+
+        assert firebaseUser != null;
+        tv_name.setText(firebaseUser.getDisplayName());
+        tv_email.setText(firebaseUser.getEmail());
+
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            getOnBackPressedDispatcher().onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }
