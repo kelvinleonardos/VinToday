@@ -1,6 +1,9 @@
 package com.example.vintoday.recyclerview;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,8 +11,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.vintoday.NewsActivity;
 import com.example.vintoday.R;
 import com.example.vintoday.models.News;
 import com.google.android.material.card.MaterialCardView;
@@ -36,6 +42,14 @@ public class RecomendationsAdapter extends RecyclerView.Adapter<RecomendationsAd
         holder.title.setText(recomendation.getTitle());
         holder.caption.setText(recomendation.getDescription());
         Picasso.get().load(recomendation.getUrlToImage()).into(holder.imageView);
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), NewsActivity.class);
+                intent.putExtra("news", recomendation);
+                startActivity(v.getContext(), intent, null);
+            }
+        });
     }
 
     @Override
@@ -47,12 +61,14 @@ public class RecomendationsAdapter extends RecyclerView.Adapter<RecomendationsAd
         public TextView title;
         public TextView caption;
         public ImageView imageView;
+        public ConstraintLayout cardView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.recomendation_title);
             caption = itemView.findViewById(R.id.recomendation_description);
             imageView = itemView.findViewById(R.id.recomendation_image);
+            cardView = itemView.findViewById(R.id.recomendation_card);
         }
     }
 }

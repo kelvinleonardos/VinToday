@@ -1,6 +1,9 @@
 package com.example.vintoday.recyclerview;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,8 +11,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.vintoday.NewsActivity;
 import com.example.vintoday.R;
 import com.example.vintoday.models.News;
 import com.google.android.material.card.MaterialCardView;
@@ -35,6 +40,14 @@ public class TopPicksAdapter extends RecyclerView.Adapter<TopPicksAdapter.ViewHo
         News topPick = topPickList.get(position);
         holder.textView.setText(topPick.getTitle());
         Picasso.get().load(topPick.getUrlToImage()).into(holder.imageView);
+        holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), NewsActivity.class);
+                intent.putExtra("news", topPick);
+                startActivity(v.getContext(), intent, null);
+            }
+        });
     }
 
     @Override
@@ -45,11 +58,13 @@ public class TopPicksAdapter extends RecyclerView.Adapter<TopPicksAdapter.ViewHo
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView textView;
         public ImageView imageView;
+        ConstraintLayout constraintLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.top_pick_title);
             imageView = itemView.findViewById(R.id.top_pick_image);
+            constraintLayout = itemView.findViewById(R.id.top_pick_card);
         }
     }
 }

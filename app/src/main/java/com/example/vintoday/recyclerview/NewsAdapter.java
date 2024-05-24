@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.vintoday.NewsActivity;
 import com.example.vintoday.R;
 import com.example.vintoday.models.News;
 import com.squareup.picasso.Picasso;
@@ -49,6 +50,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             Picasso.get().load(news.getUrlToImage()).into(newsImageView);
             titleTextView.setText(news.getTitle());
             subtitleTextView.setText(news.getDescription());
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(v.getContext(), NewsActivity.class);
+                    intent.putExtra("news", news);
+                    startActivity(v.getContext(), intent, null);
+                }
+            });
         }
     }
 
