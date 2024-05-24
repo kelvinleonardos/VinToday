@@ -2,6 +2,7 @@ package com.example.vintoday.recyclerview;
 
 import static androidx.core.content.ContextCompat.startActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,21 +17,18 @@ import com.example.vintoday.R;
 import com.example.vintoday.models.News;
 import com.squareup.picasso.Picasso;
 import java.util.List;
-public class NewsAdapter extends
-        RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
+public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
     public List<News> newsList;
+
     public NewsAdapter(List<News> newsList){
+
         this.newsList = newsList;
     }
-    public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
-                                             int viewType) {
-        View view =
-                LayoutInflater.from(parent.getContext()).inflate(R.layout.news_list_item, parent,
-                        false);
+    public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.news_list_item, parent, false);
         return new NewsViewHolder(view);
     }
-    public void onBindViewHolder(@NonNull NewsViewHolder holder, int
-            position) {
+    public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
         News news = newsList.get(position);
         holder.bind(news);
     }
@@ -53,4 +51,6 @@ public class NewsAdapter extends
             subtitleTextView.setText(news.getDescription());
         }
     }
+
+
 }
