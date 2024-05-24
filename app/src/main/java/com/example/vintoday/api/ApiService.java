@@ -9,6 +9,9 @@ public interface ApiService {
     @GET("v2/everything")
     Call<NewsResponse> getAllNews(@Query("q") String q, @Query("apiKey") String apiKey);
 
+    @GET("v2/everything")
+    Call<NewsResponse> getTopPicks(@Query("q") String q, @Query("pageSize") String pageSize, @Query("page") String page, @Query("apiKey") String apiKey);
+
 //    @GET("api/users/{id}")
 //    Call<NewsResponse> getUser(@Path("id") int id);
 

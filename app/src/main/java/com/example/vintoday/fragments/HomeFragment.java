@@ -2,60 +2,43 @@ package com.example.vintoday.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.vintoday.R;
+import com.example.vintoday.api.ApiService;
+import com.example.vintoday.api.NewsResponse;
+import com.example.vintoday.api.RetrofitClient;
+import com.example.vintoday.models.News;
+import com.example.vintoday.recyclerview.RecomendationsAdapter;
+import com.example.vintoday.recyclerview.TopPicksAdapter;
+import com.example.vintoday.utils.Strings;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+
 public class HomeFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    ApiService apiService;
+    RecyclerView tprecyclerView, rcrecyclerView;
+    RecomendationsAdapter recomendationsAdapter;
+    TopPicksAdapter topPicksAdapter;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    List<News> topPicksList = new ArrayList<>();
+    List<News> recomendationsList = new ArrayList<>();
 
-    public HomeFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,4 +46,67 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        tprecyclerView = view.findViewById(R.id.rv_top_picks);
+        rcrecyclerView = view.findViewById(R.id.rv_recomendations);
+
+        apiService = RetrofitClient.getClient().create(ApiService.class);
+        tprecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        rcrecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        topPicksAdapter = new TopPicksAdapter(topPicksList);
+        recomendationsAdapter = new RecomendationsAdapter(recomendationsList);
+        tprecyclerView.setAdapter(topPicksAdapter);
+        rcrecyclerView.setAdapter(recomendationsAdapter);
+
+        loadTopPicksData("all");
+        loadRecomendationsData("all");
+
+    }
+
+    private void loadTopPicksData(String search) {
+        topPicksList.clear();
+        Call<NewsResponse> call = apiService.getTopPicks(search, "10", "1", Strings.API_KEY);
+        call.enqueue(new Callback<NewsResponse>() {
+            @Override
+            public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
+                if (response.isSuccessful()) {
+                    assert response.body() != null;
+                    final List<News> news = response.body().getData();
+                    topPicksList.addAll(news);
+                    topPicksAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NewsResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+    private void loadRecomendationsData(String search) {
+        recomendationsList.clear();
+        Call<NewsResponse> call = apiService.getTopPicks(search, "10", "1", Strings.API_KEY);
+        call.enqueue(new Callback<NewsResponse>() {
+            @Override
+            public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
+                if (response.isSuccessful()) {
+                    assert response.body() != null;
+                    final List<News> news = response.body().getData();
+                    recomendationsList.addAll(news);
+                    recomendationsAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NewsResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
 }
