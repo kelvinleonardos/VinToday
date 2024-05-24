@@ -15,6 +15,9 @@ public class News implements Parcelable {
     private String publishedAt;
     private String content;
 
+    public News() {
+    }
+
     protected News(Parcel in) {
         author = in.readString();
         title = in.readString();

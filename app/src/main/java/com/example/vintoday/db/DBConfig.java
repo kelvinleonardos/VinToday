@@ -8,23 +8,26 @@ import androidx.annotation.Nullable;
 
 public class DBConfig extends SQLiteOpenHelper {
 
-    private static final String DB_NAME = "news.db";
-    private static final int DB_VERSION = 1;
-    private static final String TABLE_NAME = "news";
-    private static final String COL_ID = "id";
-    private static final String COL_SOURCE_ID = "source_id";
-    private static final String COL_SOURCE_NAME = "source_name";
-    private static final String COL_AUTHOR = "author";
-    private static final String COL_TITLE = "title";
-    private static final String COL_DESCRIPTION = "description";
-    private static final String COL_URL = "url";
-    private static final String COL_URL_TO_IMAGE = "url_to_image";
-    private static final String COL_PUBLISHED_AT = "published_at";
-    private static final String COL_CONTENT = "content";
-    private static final String COL_IS_UPLOADED = "is_uploaded";
+    public static final String DB_NAME = "news.db";
+    public static final int DB_VERSION = 1;
+    public static final String TABLE_NAME = "news";
+    public static final String COL_ID = "id";
+    public static final String COL_SOURCE_ID = "source_id";
+    public static final String COL_SOURCE_NAME = "source_name";
+    public static final String COL_AUTHOR = "author";
+    public static final String COL_TITLE = "title";
+    public static final String COL_DESCRIPTION = "description";
+    public static final String COL_URL = "url";
+    public static final String COL_URL_TO_IMAGE = "url_to_image";
+    public static final String COL_PUBLISHED_AT = "published_at";
+    public static final String COL_CONTENT = "content";
 
 
     public DBConfig(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
+        super(context, DB_NAME, null, DB_VERSION);
+    }
+
+    public DBConfig(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
@@ -40,8 +43,7 @@ public class DBConfig extends SQLiteOpenHelper {
                 + COL_URL + " TEXT,"
                 + COL_URL_TO_IMAGE + " TEXT,"
                 + COL_PUBLISHED_AT + " TEXT,"
-                + COL_CONTENT + " TEXT,"
-                + COL_IS_UPLOADED + " TEXT" + ")";
+                + COL_CONTENT + " TEXT" + ")";
         db.execSQL(CREATE_NEWS_TABLE);
     }
 

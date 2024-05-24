@@ -11,11 +11,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.vintoday.db.DBControllers;
 import com.example.vintoday.models.News;
 import com.example.vintoday.utils.Themes;
 import com.squareup.picasso.Picasso;
 
 import android.view.MenuItem;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,10 +25,10 @@ public class NewsActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
 
-    TextView titleTextView;
-    TextView authorTextView;
+    TextView titleTextView, authorTextView, contentTextView;
     ImageView newsImageView;
-    TextView contentTextView;
+    ImageButton btnsave;
+    DBControllers dbControllers;
 
 
     @SuppressLint("SetTextI18n")
@@ -57,12 +59,17 @@ public class NewsActivity extends AppCompatActivity {
         authorTextView = findViewById(R.id.tv_author);
         newsImageView = findViewById(R.id.iv_news);
         contentTextView = findViewById(R.id.tv_content);
+        btnsave = findViewById(R.id.save_btn);
 
         titleTextView.setText(news.getTitle());
         authorTextView.setText(news.getAuthor() + " | " + news.getPublishedAt());
         Picasso.get().load(news.getUrlToImage()).into(newsImageView);
         contentTextView.setText(news.getSource() == null ? news.getContent() : news.getSource() + " - " + news.getContent());
 
+        btnsave.setOnClickListener(v -> {
+            dbControllers = new DBControllers(NewsActivity.this);
+            dbControllers.addNews(news);
+        });
 
     }
 

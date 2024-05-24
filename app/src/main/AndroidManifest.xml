@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Vintoday"
         tools:targetApi="31">
         <activity
+            android:name=".SavedListActivity"
+            android:exported="false" />
+        <activity
             android:name=".NewsActivity"
             android:exported="false" />
         <activity
