@@ -30,6 +30,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <LinearLayout
+            android:id="@+id/llt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -58,6 +59,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llr"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -78,6 +80,37 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_recomendations"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:nestedScrollingEnabled="false"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lls"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_marginStart="20dp"
+                android:text="@string/search_result"
+                android:textSize="22sp" />
+
+            <ProgressBar
+                android:id="@+id/pb_search"
+                android:padding="20dp"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"

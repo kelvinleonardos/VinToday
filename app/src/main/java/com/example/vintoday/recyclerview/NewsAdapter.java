@@ -47,10 +47,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             subtitleTextView = itemView.findViewById(R.id.news_subtitle);
         }
         public void bind(News news) {
-            if (news.getUrlToImage() != null) {
+            if (news.getUrlToImage() != null && !news.getUrlToImage().isEmpty()) {
                 Picasso.get().load(news.getUrlToImage()).into(newsImageView);
             } else {
-                newsImageView.setImageResource(R.drawable.menu);
+                newsImageView.setImageResource(R.drawable.no_image);
             }
             titleTextView.setText(news.getTitle());
             subtitleTextView.setText(news.getDescription());
@@ -63,6 +63,20 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                 }
             });
         }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void filter(String text) {
+        newsList.clear();
+        if (!text.isEmpty()) {
+            text = text.toLowerCase();
+            for (News news : newsList) {
+                if (news.getTitle().toLowerCase().contains(text) || news.getContent().toLowerCase().contains(text)) {
+                    newsList.add(news);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
 

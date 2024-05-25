@@ -39,7 +39,11 @@ public class TopPicksAdapter extends RecyclerView.Adapter<TopPicksAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         News topPick = topPickList.get(position);
         holder.textView.setText(topPick.getTitle());
-        Picasso.get().load(topPick.getUrlToImage()).into(holder.imageView);
+        if (topPick.getUrlToImage() != null) {
+            Picasso.get().load(topPick.getUrlToImage()).into(holder.imageView);
+        } else {
+            holder.imageView.setImageResource(R.drawable.no_image);
+        }
         holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

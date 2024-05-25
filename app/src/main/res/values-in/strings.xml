@@ -27,5 +27,6 @@
     <string name="dont_have_account">Belum punya akun?</string>
     <string name="already_have_account">Sudah punya akun?</string>
     <string name="name">Nama</string>
+    <string name="search_result">Hasil Pencarian:</string>
 
 </resources>

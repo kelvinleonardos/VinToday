@@ -27,6 +27,7 @@
     <string name="dont_have_account">Don\'t have an account?</string>
     <string name="already_have_account">Already have an account?</string>
     <string name="name">Name</string>
+    <string name="search_result">Search Result:</string>
 
 
 </resources>

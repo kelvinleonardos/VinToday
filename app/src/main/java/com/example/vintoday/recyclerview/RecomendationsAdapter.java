@@ -41,7 +41,11 @@ public class RecomendationsAdapter extends RecyclerView.Adapter<RecomendationsAd
         News recomendation = recomendationList.get(position);
         holder.title.setText(recomendation.getTitle());
         holder.caption.setText(recomendation.getDescription());
-        Picasso.get().load(recomendation.getUrlToImage()).into(holder.imageView);
+        if (recomendation.getUrlToImage() != null) {
+            Picasso.get().load(recomendation.getUrlToImage()).into(holder.imageView);
+        } else {
+            holder.imageView.setImageResource(R.drawable.no_image);
+        }
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

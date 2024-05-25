@@ -66,8 +66,16 @@ public class NewsActivity extends AppCompatActivity {
         btnsave = findViewById(R.id.save_btn);
 
         titleTextView.setText(news.getTitle());
-        authorTextView.setText(news.getAuthor() + " | " + news.getPublishedAt());
-        Picasso.get().load(news.getUrlToImage()).into(newsImageView);
+        if (news.getAuthor() != null) {
+            authorTextView.setText(news.getAuthor() + " | " + news.getPublishedAt());
+        } else {
+            authorTextView.setText(news.getPublishedAt());
+        }
+        if (news.getUrlToImage() != null && !news.getUrlToImage().isEmpty()) {
+            Picasso.get().load(news.getUrlToImage()).into(newsImageView);
+        } else {
+            newsImageView.setImageResource(R.drawable.no_image);
+        }
         contentTextView.setText(news.getSource() == null ? news.getContent() : news.getSource() + " - " + news.getContent());
 
         btnsave.setOnClickListener(v -> {

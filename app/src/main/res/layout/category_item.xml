@@ -22,14 +22,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:padding="10dp"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/category_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_marginBottom="5dp"
                 android:maxLines="1"
                 android:text="" />
 
