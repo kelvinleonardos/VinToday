@@ -80,6 +80,7 @@ public class NewsFragment extends Fragment implements CategoryAdapter.OnItemClic
     }
 
     private void loadData(String category) {
+        Log.d("TAG", "loadData: " + category);
         newsList.clear();
         Call<NewsResponse> call = apiService.getAllNews(category, Strings.API_KEY);
         call.enqueue(new Callback<NewsResponse>() {

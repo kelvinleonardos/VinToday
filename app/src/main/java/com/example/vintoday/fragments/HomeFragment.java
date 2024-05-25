@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.example.vintoday.api.RetrofitClient;
 import com.example.vintoday.models.News;
 import com.example.vintoday.recyclerview.RecomendationsAdapter;
 import com.example.vintoday.recyclerview.TopPicksAdapter;
+import com.example.vintoday.utils.LanguageUtils;
 import com.example.vintoday.utils.Strings;
 
 import java.util.ArrayList;

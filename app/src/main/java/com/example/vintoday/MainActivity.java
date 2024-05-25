@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import com.example.vintoday.fragments.HomeFragment;
 import com.example.vintoday.fragments.NewsFragment;
 import com.example.vintoday.fragments.YouFragment;
+import com.example.vintoday.utils.LanguageUtils;
 import com.example.vintoday.utils.Themes;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,6 +29,8 @@ import com.google.firebase.auth.FirebaseUser;
 public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
+    private String currentLanguage;
+    BottomNavigationView bottomNav;
 
     @Override
     protected void onStart() {
@@ -57,8 +60,10 @@ public class MainActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("ThemePref", MODE_PRIVATE);
         String currentTheme = sharedPreferences.getString("theme", "Default");
         Themes.applyTheme(currentTheme);
+        currentLanguage = LanguageUtils.getSavedLanguage(this);
+        LanguageUtils.setLocale(this, currentLanguage);
 
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = null;
 
@@ -77,7 +82,21 @@ public class MainActivity extends AppCompatActivity {
         });
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
+        updateBottomNav();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        String newLanguage = LanguageUtils.getSavedLanguage(this);
+        if (!newLanguage.equals(currentLanguage)) {
+            currentLanguage = newLanguage;
+            LanguageUtils.setLocale(this, currentLanguage);
+            updateBottomNav();
+            recreate();
+        }
     }
 
     @Override
@@ -109,6 +128,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    private void updateBottomNav() {
+        Menu menu = bottomNav.getMenu();
+        menu.findItem(R.id.nav_home).setTitle(R.string.home);
+        menu.findItem(R.id.nav_news).setTitle(R.string.news);
+        menu.findItem(R.id.nav_you).setTitle(R.string.you);
     }
 
 }

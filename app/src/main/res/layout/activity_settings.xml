@@ -25,7 +25,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.7"
-            android:text="Language" />
+            android:text="@string/language" />
 
         <Spinner
             android:id="@+id/language_spinner"
@@ -54,7 +54,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.7"
-            android:text="Theme" />
+            android:text="@string/theme" />
 
         <Spinner
             android:id="@+id/theme_spinner"

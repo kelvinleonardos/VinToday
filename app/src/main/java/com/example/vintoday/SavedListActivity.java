@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.vintoday.recyclerview.NewsAdapter;
+import com.example.vintoday.utils.LanguageUtils;
 import com.example.vintoday.utils.Themes;
 
 public class SavedListActivity extends AppCompatActivity {
@@ -42,13 +43,16 @@ public class SavedListActivity extends AppCompatActivity {
             return insets;
         });
 
-        getSupportActionBar().setTitle("Saved News");
+        getSupportActionBar().setTitle(R.string.saved_news);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         sharedPreferences = getSharedPreferences("ThemePref", MODE_PRIVATE);
         String currentTheme = sharedPreferences.getString("theme", "Default");
         Themes.applyTheme(currentTheme);
+
+        String language = LanguageUtils.getSavedLanguage(this);
+        LanguageUtils.setLocale(this, language);
 
         newsAdapter = new NewsAdapter(newsList);
         recyclerView = findViewById(R.id.rv_saved_list);

@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.vintoday.R;
 import com.example.vintoday.SavedListActivity;
+import com.example.vintoday.utils.LanguageUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -39,7 +40,8 @@ public class YouFragment extends Fragment {
         String firstName = user.getDisplayName().split(" ")[0];
 
         greetings = view.findViewById(R.id.you_greetings);
-        greetings.setText("Hello, " + firstName + "!");
+        String hello = getString(R.string.hello);
+        greetings.setText(hello + ", " + firstName + "!");
 
         logout = view.findViewById(R.id.ll_saved_news);
         logout.setOnClickListener(new View.OnClickListener() {

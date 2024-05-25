@@ -2,14 +2,14 @@
 
     <item
         android:id="@+id/menu_profile"
-        android:title="Profile"
+        android:title="@string/profile"
         android:showAsAction="always" />
     <item
         android:id="@+id/menu_settings"
-        android:title="Settings"
+        android:title="@string/settings"
         android:showAsAction="always" />
     <item
         android:id="@+id/menu_signout"
-        android:title="Sign Out"
+        android:title="@string/sign_out"
         android:showAsAction="always" />
 </menu>

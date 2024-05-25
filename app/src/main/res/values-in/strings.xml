@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">VinToday</string>
+
+    <string name="top_picks">Teratas</string>
+    <string name="recomendations">Rekomendasi</string>
+    <string name="profile">Profil</string>
+    <string name="settings">Pengaturan</string>
+    <string name="sign_out">Keluar</string>
+    <string name="sign_in">Masuk</string>
+    <string name="sign_up">Daftar</string>
+    <string name="hello">Halo</string>
+    <string name="language">Bahasa</string>">
+    <string name="theme">Tema</string>
+    <string name="light">Terang</string>
+    <string name="dark">Gelap</string>
+    <string name="home">Beranda</string>
+    <string name="news">Berita</string>
+    <string name="you">Anda</string>
+    <string name="saved_news">Berita Disimpan</string>
+    <string name="search">Cari</string>
+    <string name="read_news">Baca Berita</string>
+    <string name="welcome">Selamat Datang!</string>
+    <string name="greetings">Masuk sebelum membaca berita</string>
+    <string name="greetings_new">Daftar sebelum memulai</string>
+    <string name="email">Email</string>
+    <string name="password">Kata Sandi</string>
+    <string name="dont_have_account">Belum punya akun?</string>
+    <string name="already_have_account">Sudah punya akun?</string>
+    <string name="name">Nama</string>
+
+</resources>

@@ -7,9 +7,11 @@ public class Themes {
     public static void applyTheme(String theme) {
         switch (theme) {
             case "Light":
+            case "Terang":
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 break;
             case "Dark":
+            case "Gelap":
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 break;
             case "Default":

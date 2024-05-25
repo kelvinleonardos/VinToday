@@ -2,13 +2,13 @@
 <resources>
     <string-array name="languages">
         <item>English</item>
-        <item>Indonesian</item>
+        <item>Indonesia</item>
         <!-- Add more languages here -->
     </string-array>
 
     <string-array name="themes">
-        <item>Light</item>
-        <item>Dark</item>
+        <item>@string/light</item>
+        <item>@string/dark</item>
         <item>Default</item>
     </string-array>
 </resources>

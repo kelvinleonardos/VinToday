@@ -13,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.vintoday.db.DBControllers;
 import com.example.vintoday.models.News;
+import com.example.vintoday.utils.LanguageUtils;
 import com.example.vintoday.utils.Themes;
 import com.squareup.picasso.Picasso;
 
@@ -47,7 +48,10 @@ public class NewsActivity extends AppCompatActivity {
         String currentTheme = sharedPreferences.getString("theme", "Default");
         Themes.applyTheme(currentTheme);
 
-        getSupportActionBar().setTitle("Read News");
+        String language = LanguageUtils.getSavedLanguage(this);
+        LanguageUtils.setLocale(this, language);
+
+        getSupportActionBar().setTitle(R.string.read_news);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

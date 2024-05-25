@@ -12,6 +12,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.vintoday.utils.LanguageUtils;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Objects;
@@ -33,6 +34,9 @@ public class SignInActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        String language = LanguageUtils.getSavedLanguage(this);
+        LanguageUtils.setLocale(this, language);
 
         Objects.requireNonNull(getSupportActionBar()).hide();
 

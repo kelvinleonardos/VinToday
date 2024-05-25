@@ -11,6 +11,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.vintoday.utils.LanguageUtils;
 import com.example.vintoday.utils.Themes;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,13 +33,16 @@ public class ProfileActivity extends AppCompatActivity {
             return insets;
         });
 
-        getSupportActionBar().setTitle("Profile");
+        getSupportActionBar().setTitle(R.string.profile);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         sharedPreferences = getSharedPreferences("ThemePref", MODE_PRIVATE);
         String currentTheme = sharedPreferences.getString("theme", "Default");
         Themes.applyTheme(currentTheme);
+
+        String language = LanguageUtils.getSavedLanguage(this);
+        LanguageUtils.setLocale(this, language);
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 

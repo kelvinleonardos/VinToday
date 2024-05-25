@@ -15,7 +15,7 @@
             android:id="@+id/greeting_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Welcome!"
+            android:text="@string/welcome"
             android:textSize="36sp"
             android:textStyle="bold"
             android:layout_marginEnd="16dp"
@@ -26,7 +26,7 @@
             android:id="@+id/greeting_sentence"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create your account."
+            android:text="@string/greetings_new"
             android:textSize="20sp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
@@ -47,7 +47,7 @@
                 android:id="@+id/email_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email"
+                android:hint="@string/email"
                 android:inputType="textEmailAddress" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -66,7 +66,7 @@
                 android:id="@+id/name_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Name"
+                android:hint="@string/name"
                 android:inputType="textPersonName" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -86,7 +86,7 @@
                 android:id="@+id/password_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Password"
+                android:hint="@string/password"
                 android:inputType="textPassword" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -95,7 +95,7 @@
             android:id="@+id/sign_up_button"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="Sign Up"
+            android:text="@string/sign_up"
             android:layout_marginTop="30dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
@@ -106,7 +106,7 @@
             android:id="@+id/already_account_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Already have an account?"
+            android:text="@string/already_have_account"
             android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
@@ -116,7 +116,7 @@
             android:id="@+id/sign_in_button"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="Sign In"
+            android:text="@string/sign_in"
             android:layout_marginTop="10dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"

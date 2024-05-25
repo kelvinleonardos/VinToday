@@ -1,6 +1,7 @@
 package com.example.vintoday;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +13,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.vintoday.utils.LanguageUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -25,6 +27,7 @@ public class SignUpActivity extends AppCompatActivity {
     EditText passwordEditText;
     Button signUpButton;
     Button signInButton;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,9 @@ public class SignUpActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        String language = LanguageUtils.getSavedLanguage(this);
+        LanguageUtils.setLocale(this, language);
 
 
         Objects.requireNonNull(getSupportActionBar()).hide();
