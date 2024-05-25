@@ -28,6 +28,7 @@
     <string name="already_have_account">Already have an account?</string>
     <string name="name">Name</string>
     <string name="search_result">Search Result:</string>
+    <string name="search_message">No Result</string>
 
 
 </resources>

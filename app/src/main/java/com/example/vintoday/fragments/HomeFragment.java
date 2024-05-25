@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.vintoday.R;
 import com.example.vintoday.api.ApiService;
@@ -24,6 +25,7 @@ import com.example.vintoday.models.News;
 import com.example.vintoday.recyclerview.NewsAdapter;
 import com.example.vintoday.recyclerview.RecomendationsAdapter;
 import com.example.vintoday.recyclerview.TopPicksAdapter;
+import com.example.vintoday.utils.Debouncer;
 import com.example.vintoday.utils.LanguageUtils;
 import com.example.vintoday.utils.Strings;
 
@@ -48,6 +50,7 @@ public class HomeFragment extends Fragment {
     List<News> recomendationsList = new ArrayList<>();
     List<News> searchNews = new ArrayList<>();
     LinearLayout llt, llr, lls;
+    TextView sr;
 
 
     @Override
@@ -82,6 +85,8 @@ public class HomeFragment extends Fragment {
         lls = view.findViewById(R.id.lls);
 
         androidx.appcompat.widget.SearchView searchView = view.findViewById(R.id.search_view);
+        Debouncer debouncer = new Debouncer(1000);
+        sr = view.findViewById(R.id.tv_search_result);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -92,7 +97,7 @@ public class HomeFragment extends Fragment {
                     newsAdapter = new NewsAdapter(searchNews);
                     screcyclerView.setAdapter(newsAdapter);
                     loadSearchData(query);
-
+                    String n = getString(R.string.search_result);
                 } else {
                     llt.setVisibility(View.VISIBLE);
                     llr.setVisibility(View.VISIBLE);
@@ -107,7 +112,9 @@ public class HomeFragment extends Fragment {
                     llt.setVisibility(View.GONE);
                     llr.setVisibility(View.GONE);
                     lls.setVisibility(View.VISIBLE);
-
+                    newsAdapter = new NewsAdapter(searchNews);
+                    screcyclerView.setAdapter(newsAdapter);
+                    debouncer.debounce(() -> loadSearchData(newText));
                 } else {
                     llt.setVisibility(View.VISIBLE);
                     llr.setVisibility(View.VISIBLE);
@@ -184,13 +191,19 @@ public class HomeFragment extends Fragment {
                     final List<News> news = response.body().getData();
                     searchNews.addAll(news);
                     newsAdapter.notifyDataSetChanged();
+                    String n = getString(R.string.search_result);
+                    if (searchNews.isEmpty()) {
+                        String m = getString(R.string.search_message);
+                        sr.setText(n + " " + m);
+                    } else {
+                        sr.setText(n);
+                    }
                 }
                 pBS.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<NewsResponse> call, Throwable t) {
-
                 t.printStackTrace();
                 pBS.setVisibility(View.GONE);
             }
