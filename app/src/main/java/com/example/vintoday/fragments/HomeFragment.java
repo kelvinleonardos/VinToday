@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.vintoday.R;
 import com.example.vintoday.api.ApiService;
@@ -37,6 +38,7 @@ public class HomeFragment extends Fragment {
     RecyclerView tprecyclerView, rcrecyclerView;
     RecomendationsAdapter recomendationsAdapter;
     TopPicksAdapter topPicksAdapter;
+    ProgressBar pBR, pBT;
 
     List<News> topPicksList = new ArrayList<>();
     List<News> recomendationsList = new ArrayList<>();
@@ -71,6 +73,9 @@ public class HomeFragment extends Fragment {
 
     private void loadTopPicksData(String search) {
         topPicksList.clear();
+        pBT = getView().findViewById(R.id.pb_t);
+        pBT.setVisibility(View.VISIBLE);
+
         Call<NewsResponse> call = apiService.getTopPicks(search, "10", "1", Strings.API_KEY);
         call.enqueue(new Callback<NewsResponse>() {
             @Override
@@ -81,17 +86,22 @@ public class HomeFragment extends Fragment {
                     topPicksList.addAll(news);
                     topPicksAdapter.notifyDataSetChanged();
                 }
+                pBT.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<NewsResponse> call, Throwable t) {
                 t.printStackTrace();
+                pBT.setVisibility(View.GONE);
             }
         });
     }
 
     private void loadRecomendationsData(String search) {
         recomendationsList.clear();
+        pBR = getView().findViewById(R.id.pb_r);
+        pBR.setVisibility(View.VISIBLE);
+
         Call<NewsResponse> call = apiService.getTopPicks(search, "10", "1", Strings.API_KEY);
         call.enqueue(new Callback<NewsResponse>() {
             @Override
@@ -102,11 +112,13 @@ public class HomeFragment extends Fragment {
                     recomendationsList.addAll(news);
                     recomendationsAdapter.notifyDataSetChanged();
                 }
+                pBR.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<NewsResponse> call, Throwable t) {
                 t.printStackTrace();
+                pBR.setVisibility(View.GONE);
             }
         });
     }

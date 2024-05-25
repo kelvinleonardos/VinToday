@@ -4,6 +4,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -63,12 +65,20 @@ public class SavedListActivity extends AppCompatActivity {
 
     }
 
-    void loadSavedNews() {
-        newsList.clear();
-        dbControllers = new DBControllers(this);
+void loadSavedNews() {
+    newsList.clear();
+    dbControllers = new DBControllers(this);
+    ProgressBar progressBar = findViewById(R.id.pb_s);
+    progressBar.setVisibility(View.VISIBLE);
+
+    new Thread(() -> {
         newsList.addAll(dbControllers.getAllNews());
-        newsAdapter.notifyDataSetChanged();
-    }
+        runOnUiThread(() -> {
+            newsAdapter.notifyDataSetChanged();
+            progressBar.setVisibility(View.GONE);
+        });
+    }).start();
+}
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

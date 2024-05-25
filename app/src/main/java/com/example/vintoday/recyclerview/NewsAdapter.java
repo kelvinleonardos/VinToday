@@ -47,7 +47,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             subtitleTextView = itemView.findViewById(R.id.news_subtitle);
         }
         public void bind(News news) {
-            Picasso.get().load(news.getUrlToImage()).into(newsImageView);
+            if (news.getUrlToImage() != null) {
+                Picasso.get().load(news.getUrlToImage()).into(newsImageView);
+            } else {
+                newsImageView.setImageResource(R.drawable.menu);
+            }
             titleTextView.setText(news.getTitle());
             subtitleTextView.setText(news.getDescription());
             itemView.setOnClickListener(new View.OnClickListener() {

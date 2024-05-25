@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.vintoday.R;
@@ -41,7 +42,7 @@ public class NewsFragment extends Fragment implements CategoryAdapter.OnItemClic
     CategoryAdapter categoryAdapter;
     ApiService apiService;
     RecyclerView newsrecyclerView, categoryRecyclerView;
-
+    ProgressBar progressBar;
 
 
     @Override
@@ -80,7 +81,8 @@ public class NewsFragment extends Fragment implements CategoryAdapter.OnItemClic
     }
 
     private void loadData(String category) {
-        Log.d("TAG", "loadData: " + category);
+        progressBar = getView().findViewById(R.id.pb_n);
+        progressBar.setVisibility(View.VISIBLE);
         newsList.clear();
         Call<NewsResponse> call = apiService.getAllNews(category, Strings.API_KEY);
         call.enqueue(new Callback<NewsResponse>() {
@@ -92,11 +94,14 @@ public class NewsFragment extends Fragment implements CategoryAdapter.OnItemClic
                     newsList.addAll(news);
                     newsAdapter.notifyDataSetChanged();
                 }
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<NewsResponse> call, Throwable t) {
+
                 t.printStackTrace();
+                progressBar.setVisibility(View.GONE);
             }
         });
     }
