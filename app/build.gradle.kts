@@ -54,5 +54,11 @@ dependencies {
     // picasso
     implementation ("com.squareup.picasso:picasso:2.8")
 
+    // work manager
+    implementation ("androidx.work:work-runtime:2.9.0")
+
+    // guava
+    implementation ("com.google.guava:guava:33.2.0-android")
+
 
 }

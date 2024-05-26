@@ -11,8 +11,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import com.example.vintoday.utils.LanguageUtils;
+import com.example.vintoday.utils.SyncWorker;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Objects;
@@ -68,6 +71,8 @@ public class SignInActivity extends AppCompatActivity {
                         Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
+                        OneTimeWorkRequest syncRequest = new OneTimeWorkRequest.Builder(SyncWorker.class).build();
+                        WorkManager.getInstance(this).enqueue(syncRequest);
                     } else {
                         String message = task.getException().toString().split(": ")[1];
                         Toast.makeText(SignInActivity.this, message, Toast.LENGTH_SHORT).show();
