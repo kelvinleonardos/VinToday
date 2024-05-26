@@ -12,6 +12,8 @@ import com.example.vintoday.models.News;
 import com.example.vintoday.models.Source;
 import com.google.gson.Gson;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,11 +23,11 @@ public class DBControllers {
     private Gson gson;
     private Context context;
 
-public DBControllers(Context context) {
-    dbHelper = new DBConfig(context);
-    gson = new Gson();
-    this.context = context;
-}
+    public DBControllers(Context context) {
+        dbHelper = new DBConfig(context);
+        gson = new Gson();
+        this.context = context;
+    }
 
     public void addNews(News news, String email) {
         List<News> newsList = getAllNews();
@@ -55,6 +57,23 @@ public DBControllers(Context context) {
 
         db.insert(DBConfig.TABLE_NAME, null, values);
         db.close();
+
+        String sourceJson = gson.toJson(news.getSource());
+
+        News firestoreNews = new News();
+        firestoreNews.setSource(new Source());
+        firestoreNews.getSource().setId(news.getSource().getId());
+        firestoreNews.getSource().setName(sourceJson);
+        firestoreNews.setAuthor(news.getAuthor());
+        firestoreNews.setTitle(news.getTitle());
+        firestoreNews.setDescription(news.getDescription());
+        firestoreNews.setUrl(news.getUrl());
+        firestoreNews.setUrlToImage(news.getUrlToImage());
+        firestoreNews.setPublishedAt(news.getPublishedAt());
+        firestoreNews.setContent(news.getContent());
+
+        FirebaseFirestore firestoreDb = FirebaseFirestore.getInstance();
+        firestoreDb.collection("news").add(firestoreNews);
     }
 
     @SuppressLint("Range")
