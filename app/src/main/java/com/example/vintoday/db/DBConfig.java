@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 public class DBConfig extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "news.db";
-    public static final int DB_VERSION = 1;
+    public static final int DB_VERSION = 2;
     public static final String TABLE_NAME = "news";
     public static final String COL_ID = "id";
     public static final String COL_SOURCE_ID = "source_id";
@@ -21,6 +21,8 @@ public class DBConfig extends SQLiteOpenHelper {
     public static final String COL_URL_TO_IMAGE = "url_to_image";
     public static final String COL_PUBLISHED_AT = "published_at";
     public static final String COL_CONTENT = "content";
+    public static final String COL_EMAIL = "EMAIL";
+    
 
 
     public DBConfig(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
@@ -43,7 +45,8 @@ public class DBConfig extends SQLiteOpenHelper {
                 + COL_URL + " TEXT,"
                 + COL_URL_TO_IMAGE + " TEXT,"
                 + COL_PUBLISHED_AT + " TEXT,"
-                + COL_CONTENT + " TEXT" + ")";
+                + COL_CONTENT + " TEXT,"
+                + COL_EMAIL + " TEXT" + ")";
         db.execSQL(CREATE_NEWS_TABLE);
     }
 

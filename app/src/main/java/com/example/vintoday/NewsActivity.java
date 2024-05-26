@@ -15,6 +15,8 @@ import com.example.vintoday.db.DBControllers;
 import com.example.vintoday.models.News;
 import com.example.vintoday.utils.LanguageUtils;
 import com.example.vintoday.utils.Themes;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
 import android.view.MenuItem;
@@ -51,6 +53,8 @@ public class NewsActivity extends AppCompatActivity {
         String language = LanguageUtils.getSavedLanguage(this);
         LanguageUtils.setLocale(this, language);
 
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
         getSupportActionBar().setTitle(R.string.read_news);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -80,7 +84,8 @@ public class NewsActivity extends AppCompatActivity {
 
         btnsave.setOnClickListener(v -> {
             dbControllers = new DBControllers(NewsActivity.this);
-            dbControllers.addNews(news);
+            assert firebaseUser != null;
+            dbControllers.addNews(news, firebaseUser.getEmail());
         });
 
     }

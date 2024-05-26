@@ -37,12 +37,10 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser == null) {
-            // No user is signed in, redirect to FirebaseUIActivity
             Intent intent = new Intent(this, SignInActivity.class);
             startActivity(intent);
             finish();
         } else {
-            // User is signed in, you can allow them to proceed or update the UI accordingly
         }
     }
 

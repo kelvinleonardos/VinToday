@@ -3,6 +3,6 @@ package com.example.vintoday.utils;
 public class Strings {
 
 
-    public static String API_KEY = "4e93409939864557a3977a675810b9a7";
+    public static String API_KEY = "d597794d87c8403e8711e23339b2ccec";
 
 }

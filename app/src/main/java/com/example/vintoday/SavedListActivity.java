@@ -24,6 +24,8 @@ import java.util.List;
 import com.example.vintoday.recyclerview.NewsAdapter;
 import com.example.vintoday.utils.LanguageUtils;
 import com.example.vintoday.utils.Themes;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class SavedListActivity extends AppCompatActivity {
 
@@ -65,20 +67,23 @@ public class SavedListActivity extends AppCompatActivity {
 
     }
 
-void loadSavedNews() {
-    newsList.clear();
-    dbControllers = new DBControllers(this);
-    ProgressBar progressBar = findViewById(R.id.pb_s);
-    progressBar.setVisibility(View.VISIBLE);
+    void loadSavedNews() {
+        newsList.clear();
+        dbControllers = new DBControllers(this);
+        ProgressBar progressBar = findViewById(R.id.pb_s);
+        progressBar.setVisibility(View.VISIBLE);
 
-    new Thread(() -> {
-        newsList.addAll(dbControllers.getAllNews());
-        runOnUiThread(() -> {
-            newsAdapter.notifyDataSetChanged();
-            progressBar.setVisibility(View.GONE);
-        });
-    }).start();
-}
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        new Thread(() -> {
+            assert firebaseUser != null;
+            newsList.addAll(dbControllers.getAllNews(firebaseUser.getEmail()));
+            runOnUiThread(() -> {
+                newsAdapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
+            });
+        }).start();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

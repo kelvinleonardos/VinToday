@@ -27,7 +27,7 @@ public DBControllers(Context context) {
     this.context = context;
 }
 
-    public void addNews(News news) {
+    public void addNews(News news, String email) {
         List<News> newsList = getAllNews();
         for (News n : newsList) {
             if (n.getTitle().equals(news.getTitle())) {
@@ -51,6 +51,7 @@ public DBControllers(Context context) {
         values.put(DBConfig.COL_URL_TO_IMAGE, news.getUrlToImage());
         values.put(DBConfig.COL_PUBLISHED_AT, news.getPublishedAt());
         values.put(DBConfig.COL_CONTENT, news.getContent());
+        values.put(DBConfig.COL_EMAIL, email);
 
         db.insert(DBConfig.TABLE_NAME, null, values);
         db.close();
@@ -58,10 +59,20 @@ public DBControllers(Context context) {
 
     @SuppressLint("Range")
     public List<News> getAllNews() {
+        return getAllNews(null);
+    }
+
+    @SuppressLint("Range")
+    public List<News> getAllNews(String email) {
         List<News> newsList = new ArrayList<>();
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.query(DBConfig.TABLE_NAME, null, null, null, null, null, null);
+        Cursor cursor;
+        if (email == null) {
+            cursor = db.query(DBConfig.TABLE_NAME, null, null, null, null, null, null);
+        } else {
+            cursor = db.query(DBConfig.TABLE_NAME, null, DBConfig.COL_EMAIL + "=?", new String[]{email}, null, null, null);
+        }
 
         if (cursor.moveToFirst()) {
             do {

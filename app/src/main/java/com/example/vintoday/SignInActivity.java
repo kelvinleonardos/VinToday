@@ -57,6 +57,11 @@ public class SignInActivity extends AppCompatActivity {
         String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
+        if (email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(SignInActivity.this, "Email and password cannot be empty.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
@@ -64,8 +69,8 @@ public class SignInActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     } else {
-                        Toast.makeText(SignInActivity.this, "Authentication failed.",
-                                Toast.LENGTH_SHORT).show();
+                        String message = task.getException().toString().split(": ")[1];
+                        Toast.makeText(SignInActivity.this, message, Toast.LENGTH_SHORT).show();
                     }
                 });
     }

@@ -102,13 +102,13 @@ public class NewsFragment extends Fragment implements CategoryAdapter.OnItemClic
 
                 t.printStackTrace();
                 progressBar.setVisibility(View.GONE);
+
             }
         });
     }
 
     @Override
     public void onItemClick(String category) {
-        Log.d("TAG", "onItemClick: " + category);
         loadData(category);
     }
 

@@ -65,10 +65,14 @@ public class SignUpActivity extends AppCompatActivity {
         String name = nameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
+        if (email.isEmpty() || name.isEmpty() || password.isEmpty()) {
+            Toast.makeText(SignUpActivity.this, "Email, name, and password cannot be empty.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        // Sign up success, update UI with the signed-in user's information
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
                         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
@@ -78,20 +82,17 @@ public class SignUpActivity extends AppCompatActivity {
                         user.updateProfile(profileUpdates)
                                 .addOnCompleteListener(task1 -> {
                                     if (task1.isSuccessful()) {
-                                        // Name set successfully, navigate to main activity
                                         Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                                         startActivity(intent);
                                         finishAffinity();
                                     } else {
-                                        // If setting name fails, display a message to the user.
                                         Toast.makeText(SignUpActivity.this, "Failed to set user name.",
                                                 Toast.LENGTH_SHORT).show();
                                     }
                                 });
                     } else {
-                        // If sign up fails, display a message to the user.
-                        Toast.makeText(SignUpActivity.this, "Authentication failed.",
-                                Toast.LENGTH_SHORT).show();
+                        String message = task.getException().toString().split(": ")[1];
+                        Toast.makeText(SignUpActivity.this, message, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
