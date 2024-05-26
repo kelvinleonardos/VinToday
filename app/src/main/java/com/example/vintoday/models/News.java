@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 
 public class News implements Parcelable {
     private Source source;
+    private String sourceId;
+    private String sourceName;
     private String author;
     private String title;
     private String description;
@@ -14,11 +16,14 @@ public class News implements Parcelable {
     private String urlToImage;
     private String publishedAt;
     private String content;
+    private String email; // Add this line
 
     public News() {
     }
 
     protected News(Parcel in) {
+        sourceId = in.readString();
+        sourceName = in.readString();
         author = in.readString();
         title = in.readString();
         description = in.readString();
@@ -26,6 +31,7 @@ public class News implements Parcelable {
         urlToImage = in.readString();
         publishedAt = in.readString();
         content = in.readString();
+        email = in.readString(); // Add this line
     }
 
     public static final Creator<News> CREATOR = new Creator<News>() {
@@ -46,6 +52,22 @@ public class News implements Parcelable {
 
     public void setSource(Source source) {
         this.source = source;
+    }
+
+    public String getSourceId() {
+        return sourceId;
+    }
+
+    public void setSourceId(String sourceId) {
+        this.sourceId = sourceId;
+    }
+
+    public String getSourceName() {
+        return sourceName;
+    }
+
+    public void setSourceName(String sourceName) {
+        this.sourceName = sourceName;
     }
 
     public String getAuthor() {
@@ -104,6 +126,14 @@ public class News implements Parcelable {
         this.content = content;
     }
 
+    public String getEmail() { // Add this method
+        return email;
+    }
+
+    public void setEmail(String email) { // Add this method
+        this.email = email;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -111,6 +141,8 @@ public class News implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeString(sourceId);
+        dest.writeString(sourceName);
         dest.writeString(author);
         dest.writeString(title);
         dest.writeString(description);
@@ -118,5 +150,6 @@ public class News implements Parcelable {
         dest.writeString(urlToImage);
         dest.writeString(publishedAt);
         dest.writeString(content);
+        dest.writeString(email); // Add this line
     }
 }

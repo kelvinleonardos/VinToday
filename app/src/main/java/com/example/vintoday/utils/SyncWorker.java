@@ -21,6 +21,8 @@ import androidx.work.WorkerParameters;
 import com.example.vintoday.R;
 import com.example.vintoday.db.DBControllers;
 import com.example.vintoday.models.News;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.gson.Gson;
@@ -53,6 +55,9 @@ public class SyncWorker extends Worker {
                 .setContentText("Data sync has started")
                 .setPriority(NotificationCompat.PRIORITY_MAX);
         showToast("Data sync has started");
+
+
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         notificationManager.notify(1, startBuilder.build());
         DBControllers dbControllers = new DBControllers(getApplicationContext());
@@ -88,7 +93,8 @@ public class SyncWorker extends Worker {
                         }
                     }
                     if (!isNewsExist) {
-                        dbControllers.addNews(firestoreNews, null);
+                        assert firebaseUser != null;
+                        dbControllers.addNews(firestoreNews, firebaseUser.getEmail());
                     }
                 }
             } else {

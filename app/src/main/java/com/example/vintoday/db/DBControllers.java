@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.example.vintoday.models.News;
 import com.example.vintoday.models.Source;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.gson.Gson;
 
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -30,7 +31,7 @@ public class DBControllers {
     }
 
     public void addNews(News news, String email) {
-        List<News> newsList = getAllNews();
+        List<News> newsList = getAllNews(email);
         for (News n : newsList) {
             if (n.getTitle().equals(news.getTitle())) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -46,6 +47,7 @@ public class DBControllers {
 
         ContentValues values = new ContentValues();
         values.put(DBConfig.COL_SOURCE_ID, gson.toJson(news.getSource()));
+        values.put(DBConfig.COL_SOURCE_NAME, gson.toJson(news.getSource()));
         values.put(DBConfig.COL_AUTHOR, news.getAuthor());
         values.put(DBConfig.COL_TITLE, news.getTitle());
         values.put(DBConfig.COL_DESCRIPTION, news.getDescription());
@@ -59,11 +61,11 @@ public class DBControllers {
         db.close();
 
         String sourceJson = gson.toJson(news.getSource());
+        Log.d("DBControllers", "Source: " + sourceJson);
 
         News firestoreNews = new News();
-        firestoreNews.setSource(new Source());
-        firestoreNews.getSource().setId(news.getSource().getId());
-        firestoreNews.getSource().setName(sourceJson);
+        firestoreNews.setSourceId(gson.toJson(news.getSource()));
+        firestoreNews.setSourceName(gson.toJson(news.getSource()));
         firestoreNews.setAuthor(news.getAuthor());
         firestoreNews.setTitle(news.getTitle());
         firestoreNews.setDescription(news.getDescription());
@@ -71,9 +73,11 @@ public class DBControllers {
         firestoreNews.setUrlToImage(news.getUrlToImage());
         firestoreNews.setPublishedAt(news.getPublishedAt());
         firestoreNews.setContent(news.getContent());
+        firestoreNews.setEmail(email);
 
         FirebaseFirestore firestoreDb = FirebaseFirestore.getInstance();
         firestoreDb.collection("news").add(firestoreNews);
+        Log.d("DBControllers", "Firestore News added");
     }
 
     @SuppressLint("Range")
@@ -115,9 +119,23 @@ public class DBControllers {
         return newsList;
     }
 
-    public void deleteNews(int id) {
+    public void deleteNews(News news) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        db.delete(DBConfig.TABLE_NAME, DBConfig.COL_ID + " = ?", new String[]{String.valueOf(id)});
+        db.delete(DBConfig.TABLE_NAME, DBConfig.COL_TITLE + " = ?", new String[]{news.getTitle()});
         db.close();
+
+        FirebaseFirestore firestoreDb = FirebaseFirestore.getInstance();
+        firestoreDb.collection("news")
+                .whereEqualTo("title", news.getTitle())
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            firestoreDb.collection("news").document(document.getId()).delete();
+                        }
+                    } else {
+                        Log.d("DBControllers", "Error getting documents: ", task.getException());
+                    }
+                });
     }
 }

@@ -20,9 +20,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.List;
 
 public class NewsActivity extends AppCompatActivity {
 
@@ -30,7 +33,7 @@ public class NewsActivity extends AppCompatActivity {
 
     TextView titleTextView, authorTextView, contentTextView;
     ImageView newsImageView;
-    ImageButton btnsave;
+    ImageButton btnsave, btndelete;
     DBControllers dbControllers;
 
 
@@ -68,6 +71,21 @@ public class NewsActivity extends AppCompatActivity {
         newsImageView = findViewById(R.id.iv_news);
         contentTextView = findViewById(R.id.tv_content);
         btnsave = findViewById(R.id.save_btn);
+        btndelete = findViewById(R.id.delete_btn);
+
+        dbControllers = new DBControllers(NewsActivity.this);
+        assert firebaseUser != null;
+        List<News> savedNewsList = dbControllers.getAllNews(firebaseUser.getEmail());
+        for (News savedNews : savedNewsList) {
+            if (savedNews.getTitle().equals(news.getTitle())) {
+                btnsave.setVisibility(View.GONE);
+                btndelete.setVisibility(View.VISIBLE);
+                break;
+            } else {
+                btnsave.setVisibility(View.VISIBLE);
+                btndelete.setVisibility(View.GONE);
+            }
+        }
 
         titleTextView.setText(news.getTitle());
         if (news.getAuthor() != null) {
@@ -86,6 +104,16 @@ public class NewsActivity extends AppCompatActivity {
             dbControllers = new DBControllers(NewsActivity.this);
             assert firebaseUser != null;
             dbControllers.addNews(news, firebaseUser.getEmail());
+            btnsave.setVisibility(View.GONE);
+            btndelete.setVisibility(View.VISIBLE);
+        });
+
+        btndelete.setOnClickListener(v -> {
+            dbControllers = new DBControllers(NewsActivity.this);
+            assert firebaseUser != null;
+            dbControllers.deleteNews(news);
+            btnsave.setVisibility(View.VISIBLE);
+            btndelete.setVisibility(View.GONE);
         });
 
     }
