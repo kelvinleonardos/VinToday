@@ -29,6 +29,9 @@
     <string name="name">Name</string>
     <string name="search_result">Search Result:</string>
     <string name="search_message">No Result</string>
+    <string name="no_internet">No Internet Connection</string>">
+    <string name="try_again">Try Again</string>">
+    <string name="no_saved_news">No Saved News</string>
 
 
 </resources>

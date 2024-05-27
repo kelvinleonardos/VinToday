@@ -1,6 +1,9 @@
 package com.example.vintoday.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +16,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -23,7 +28,6 @@ import com.example.vintoday.api.RetrofitClient;
 import com.example.vintoday.models.News;
 import com.example.vintoday.recyclerview.CategoryAdapter;
 import com.example.vintoday.recyclerview.NewsAdapter;
-import com.example.vintoday.utils.Network;
 import com.example.vintoday.utils.Strings;
 
 import java.io.IOException;
@@ -43,6 +47,8 @@ public class NewsFragment extends Fragment implements CategoryAdapter.OnItemClic
     ApiService apiService;
     RecyclerView newsrecyclerView, categoryRecyclerView;
     ProgressBar progressBar;
+    Button trybtnnews;
+    LinearLayout llnonews, content;
 
 
     @Override
@@ -75,6 +81,20 @@ public class NewsFragment extends Fragment implements CategoryAdapter.OnItemClic
         categoryRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         categoryAdapter = new CategoryAdapter(categoryList, this);
         categoryRecyclerView.setAdapter(categoryAdapter);
+
+        content = view.findViewById(R.id.content_view);
+
+        llnonews = view.findViewById(R.id.llnonews);
+        trybtnnews = view.findViewById(R.id.btn_retry_news);
+
+        trybtnnews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkInternetConnection();
+            }
+        });
+
+        checkInternetConnection();
 
         loadData("all");
 
@@ -112,4 +132,23 @@ public class NewsFragment extends Fragment implements CategoryAdapter.OnItemClic
         loadData(category);
     }
 
+    private void checkInternetConnection() {
+        if (!isConnectedToInternet(getContext())) {
+            Log.d("halo", "halo");
+            llnonews.setVisibility(View.VISIBLE);
+            content.setVisibility(View.GONE);
+            Toast.makeText(getContext(), R.string.no_internet, Toast.LENGTH_SHORT).show();
+        } else {
+            Log.d("halo", "hai");
+            llnonews.setVisibility(View.GONE);
+            content.setVisibility(View.VISIBLE);
+            loadData("all");
+        }
+    }
+
+    public static boolean isConnectedToInternet(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
+    }
 }

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,6 +36,7 @@ public class SavedListActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     List<News> newsList = new ArrayList<>();
     DBControllers dbControllers;
+    TextView nodata;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +60,20 @@ public class SavedListActivity extends AppCompatActivity {
         String language = LanguageUtils.getSavedLanguage(this);
         LanguageUtils.setLocale(this, language);
 
+        nodata = findViewById(R.id.s_no_data);
+
         newsAdapter = new NewsAdapter(newsList);
         recyclerView = findViewById(R.id.rv_saved_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(newsAdapter);
+
+        if (newsList.isEmpty()) {
+            nodata.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            nodata.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
 
         loadSavedNews();
 

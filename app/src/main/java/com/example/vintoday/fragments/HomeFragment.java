@@ -1,5 +1,8 @@
 package com.example.vintoday.fragments;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,9 +16,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.vintoday.R;
 import com.example.vintoday.api.ApiService;
@@ -28,6 +33,7 @@ import com.example.vintoday.recyclerview.TopPicksAdapter;
 import com.example.vintoday.utils.Debouncer;
 import com.example.vintoday.utils.LanguageUtils;
 import com.example.vintoday.utils.Strings;
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,11 +51,12 @@ public class HomeFragment extends Fragment {
     TopPicksAdapter topPicksAdapter;
     NewsAdapter newsAdapter;
     ProgressBar pBR, pBT, pBS;
-
+    Button trybtn;
+    MaterialCardView searchcard;
     List<News> topPicksList = new ArrayList<>();
     List<News> recomendationsList = new ArrayList<>();
     List<News> searchNews = new ArrayList<>();
-    LinearLayout llt, llr, lls;
+    LinearLayout llt, llr, lls, llnohome;
     TextView sr;
 
 
@@ -83,6 +90,18 @@ public class HomeFragment extends Fragment {
         llt = view.findViewById(R.id.llt);
         llr = view.findViewById(R.id.llr);
         lls = view.findViewById(R.id.lls);
+        llnohome = view.findViewById(R.id.llnohome);
+        trybtn = view.findViewById(R.id.btn_retry);
+        searchcard = view.findViewById(R.id.card_search);
+
+        trybtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkInternetConnection();
+            }
+        });
+
+        checkInternetConnection();
 
         androidx.appcompat.widget.SearchView searchView = view.findViewById(R.id.search_view);
         Debouncer debouncer = new Debouncer(1000);
@@ -208,6 +227,31 @@ public class HomeFragment extends Fragment {
                 pBS.setVisibility(View.GONE);
             }
         });
+    }
+
+    private void checkInternetConnection() {
+        if (!isConnectedToInternet(getContext())) {
+            llnohome.setVisibility(View.VISIBLE);
+            searchcard.setVisibility(View.GONE);
+            llt.setVisibility(View.GONE);
+            llr.setVisibility(View.GONE);
+            lls.setVisibility(View.GONE);
+            Toast.makeText(getContext(), R.string.no_internet, Toast.LENGTH_SHORT).show();
+        } else {
+            llnohome.setVisibility(View.GONE);
+            searchcard.setVisibility(View.VISIBLE);
+            llt.setVisibility(View.VISIBLE);
+            llr.setVisibility(View.VISIBLE);
+            lls.setVisibility(View.GONE);
+            loadTopPicksData("all");
+            loadRecomendationsData("all");
+        }
+    }
+
+    public static boolean isConnectedToInternet(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
     }
 
 }

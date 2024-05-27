@@ -14,6 +14,7 @@
             android:layout_height="wrap_content" />
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -117,6 +118,32 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:nestedScrollingEnabled="false"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llnohome"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:visibility="gone"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_no_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="@string/no_internet"
+                android:textSize="22sp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/try_again"
+                android:id="@+id/btn_retry"
+                android:layout_marginTop="20dp"/>
+
 
         </LinearLayout>
 

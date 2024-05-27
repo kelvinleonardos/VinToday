@@ -29,5 +29,8 @@
     <string name="name">Nama</string>
     <string name="search_result">Hasil Pencarian:</string>
     <string name="search_message">Tidak Ada Hasil</string>
+    <string name="no_internet">Tidak Ada Koneksi Internet</string>">
+    <string name="try_again">Coba Lagi</string>">
+    <string name="no_saved_news">Tidak Ada Berita Disimpan</string>
 
 </resources>
