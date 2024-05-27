@@ -67,15 +67,8 @@ public class SavedListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(newsAdapter);
 
-        if (newsList.isEmpty()) {
-            nodata.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.GONE);
-        } else {
-            nodata.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-        }
-
         loadSavedNews();
+
 
     }
 
@@ -93,6 +86,14 @@ public class SavedListActivity extends AppCompatActivity {
             runOnUiThread(() -> {
                 newsAdapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.GONE);
+
+                if (newsList.isEmpty()) {
+                    nodata.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
+                } else {
+                    nodata.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                }
             });
         }).start();
     }
